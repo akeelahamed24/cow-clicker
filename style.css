@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f1e7e7; /* Website background color */
+  }
+  
+  header {
+    background-color: #f08080; /* Header color */
+    color: white;
+    padding: 10px 0;
+    margin-bottom: 10px;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    max-width: 500px;
+    margin: auto;
+  }
+  
+  .cow-section, .sidebar {
+    flex: 1;
+    background: #ffe6e6; /* Light pink color for containers */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    height: 300px; /* Ensure containers are the same height */
+    border: 2px solid #f5c2c2; /* Pinkish border matching the theme */
+  }
+  
+  .cow-section {
+    text-align: center;
+  }
+  
+  #cow {
+    width: 150px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  #click-count {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f08080; /* Same as the header for emphasis */
+  }
+  
+  .sidebar h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #f08080; /* Match header color */
+  }
+  
+  .items-scrollable {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: calc(100% - 30px); /* Scroll area fits inside the sidebar */
+    overflow-y: auto;
+  }
+  
+  /* Custom scrollbar styling */
+  .items-scrollable::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .items-scrollable::-webkit-scrollbar-track {
+    background: #f1e7e7; /* Match the website background */
+  }
+  
+  .items-scrollable::-webkit-scrollbar-thumb {
+    background-color: #f08080; /* Match the header color */
+    border-radius: 10px;
+  }
+  
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #ffffff; /* White background for contrast */
+    border: 1px solid #f5c2c2; /* Pink border matching the container */
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .item:hover {
+    transform: scale(1.02); /* Slight zoom effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  }
+  
+  .item button {
+    padding: 5px 10px;
+    background: #f08080; /* Match the header color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .item button:hover {
+    background: #d96868; /* Darker shade for hover */
+  }
+  
+  .item button:disabled {
+    background: #e8b3b3; /* Muted pink for disabled state */
+    cursor: not-allowed;
+  }
+  
+
+
+  
