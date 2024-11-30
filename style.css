@@ -27,7 +27,8 @@ header h1 {
   margin: auto;
 }
 
-.cow-section, .sidebar {
+.cow-section,
+.sidebar {
   flex: 1;
   background: #ffe6e6; /* Light pink color for containers */
   padding: 20px;
@@ -128,8 +129,6 @@ header h1 {
   cursor: not-allowed;
 }
 
-
-
 /* Development-only button styling */
 .dev-only {
   position: fixed;
@@ -143,6 +142,38 @@ header h1 {
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+}
+
+.hay-bale {
+  position: absolute;
+  background: #f5c542; /* Golden hay color */
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  animation: float 3s ease-out;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50px);
+  }
+}
+
+.game-message {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffcccb;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Ensure the button is hidden in production */
