@@ -147,5 +147,5 @@ header h1 {
 
 /* Ensure the button is hidden in production */
 .dev-only {
-  display: none; /* Remove or comment out in development */
+  /* display: none; Remove or comment out in development */
 }
