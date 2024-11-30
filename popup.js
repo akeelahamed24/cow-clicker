@@ -1,41 +1,65 @@
-// Initialize points from localStorage
+// Initialize points and passive rate from localStorage
 let points = parseFloat(localStorage.getItem('points')) || 0;
-let passiveRate = 0; // Initially, no passive points
+let passiveRate = parseFloat(localStorage.getItem('passiveRate')) || 0;
+
+// Retrieve purchased items from localStorage
+let purchasedItems = JSON.parse(localStorage.getItem('purchasedItems')) || {};
+
+// Elements
 const cow = document.getElementById('cow');
 const clickCountDisplay = document.getElementById('click-count');
 const itemsContainer = document.getElementById('items');
 
-// Shop items configuration
+// Shop items configuration with levels
 const shopItems = [
-  { id: 1, name: "Passive Points: +0.5/sec", cost: 50, effect: 0.5 },
-  { id: 2, name: "Golden Cow", cost: 100, effect: 2 },
-  { id: 3, name: "Auto Clicker", cost: 200, effect: 5 },
-  { id: 4, name: "Magic Hay", cost: 500, effect: 10 }
+  { id: 1, name: "Passive Points", baseCost: 50, baseEffect: 0.5 },
+  { id: 2, name: "Golden Cow", baseCost: 100, baseEffect: 2 },
+  { id: 3, name: "Auto Clicker", baseCost: 200, baseEffect: 5 },
+  { id: 4, name: "Magic Hay", baseCost: 500, baseEffect: 10 }
 ];
 
 // Load shop items dynamically into the UI
 function loadShop() {
+  itemsContainer.innerHTML = ''; // Clear container before adding updated items
   shopItems.forEach(item => {
     const itemDiv = document.createElement('div');
     itemDiv.classList.add('item');
+
+    const currentLevel = purchasedItems[item.id]?.level || 0;
+    const cost = item.baseCost * Math.pow(2, currentLevel);
+    const effect = item.baseEffect * Math.pow(2, currentLevel);
+
     itemDiv.innerHTML = `
-      <span>${item.name}</span>
-      <button id="buy-${item.id}" ${points < item.cost ? 'disabled' : ''}>Buy (${item.cost})</button>
+      <span>${item.name} Increase (Level ${currentLevel})</span>
+      <p>Cost: ${cost.toFixed(1)}</p>
+      <p>Effect: +${effect.toFixed(1)} Points/sec</p>
+      <button id="buy-${item.id}" ${points < cost || currentLevel >= 5 ? 'disabled' : ''}>
+        ${currentLevel >= 5 ? "Max Level" : "Upgrade"}
+      </button>
     `;
+
     itemsContainer.appendChild(itemDiv);
 
-    // Add event listener to the button
     const button = document.getElementById(`buy-${item.id}`);
-    button.addEventListener('click', () => buyItem(item));
+    if (currentLevel < 5) {
+      button.addEventListener('click', () => buyItem(item, currentLevel, cost, effect));
+    }
   });
 }
 
-// Update shop buttons dynamically based on points
+// Update shop buttons dynamically based on points and purchases
 function updateShop() {
   shopItems.forEach(item => {
     const button = document.getElementById(`buy-${item.id}`);
+    const currentLevel = purchasedItems[item.id]?.level || 0;
+    const cost = item.baseCost * Math.pow(2, currentLevel);
     if (button) {
-      button.disabled = points < item.cost;
+      if (currentLevel >= 5) {
+        button.textContent = "Max Level";
+        button.disabled = true;
+      } else {
+        button.disabled = points < cost;
+      }
     }
   });
 }
@@ -61,17 +85,29 @@ setInterval(() => {
   localStorage.setItem('points', points); // Save points to localStorage
 }, 1000);
 
-// Buy shop items
-function buyItem(item) {
-  if (points >= item.cost) {
-    points -= item.cost; // Deduct points for the item
+// Buy or upgrade shop items
+function buyItem(item, currentLevel, cost, effect) {
+  if (points >= cost && currentLevel < 5) {
+    points -= cost; // Deduct points for the item
+    if (!purchasedItems[item.id]) {
+      purchasedItems[item.id] = { level: 1 };
+    } else {
+      purchasedItems[item.id].level++;
+    }
+
+    // Update effects based on the item purchased
     if (item.id === 1) {
       // Increase passive rate for the first item
-      passiveRate += item.effect;
+      passiveRate += effect;
     }
+
     updateDisplay();
     updateShop();
-    localStorage.setItem('points', points); // Save updated points
+
+    // Save updated data to localStorage
+    localStorage.setItem('points', points);
+    localStorage.setItem('passiveRate', passiveRate);
+    localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
   }
 }
 
