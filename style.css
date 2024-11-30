@@ -127,3 +127,25 @@ header h1 {
   background: #e8b3b3; /* Muted pink for disabled state */
   cursor: not-allowed;
 }
+
+
+
+/* Development-only button styling */
+.dev-only {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* Ensure the button is hidden in production */
+.dev-only {
+  display: none; /* Remove or comment out in development */
+}

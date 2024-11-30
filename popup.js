@@ -89,25 +89,28 @@ setInterval(() => {
 function buyItem(item, currentLevel, cost, effect) {
   if (points >= cost && currentLevel < 5) {
     points -= cost; // Deduct points for the item
+
+    // Update the purchased item levels
     if (!purchasedItems[item.id]) {
       purchasedItems[item.id] = { level: 1 };
     } else {
       purchasedItems[item.id].level++;
     }
 
-    // Update effects based on the item purchased
+    // Apply the item's effect
     if (item.id === 1) {
-      // Increase passive rate for the first item
+      // Increase passive rate for "Passive Points"
       passiveRate += effect;
     }
-
-    updateDisplay();
-    updateShop();
 
     // Save updated data to localStorage
     localStorage.setItem('points', points);
     localStorage.setItem('passiveRate', passiveRate);
     localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+
+    // Reload the shop to reflect changes in the UI
+    loadShop();
+    updateDisplay();
   }
 }
 
@@ -119,3 +122,23 @@ function updateDisplay() {
 // Initialize the app
 loadShop();
 updateDisplay();
+
+
+// Reset game data (for development use only)
+function resetGame() {
+  if (confirm("Are you sure you want to reset the game? This cannot be undone.")) {
+    localStorage.clear(); // Clear all saved game data
+    points = 0;
+    passiveRate = 0;
+    purchasedItems = {};
+
+    // Reinitialize game state
+    loadShop();
+    updateDisplay();
+
+    alert("Game has been reset!");
+  }
+}
+
+// Attach event listener to the reset button
+document.getElementById('reset-game').addEventListener('click', resetGame);
